@@ -26,6 +26,7 @@
 		"nprogress": "0.2.0",
 		"pinia": "2.3.1",
 		"print-js": "1.6.0",
+		"qrcode": "^1.5.4",
 		"qrcode.vue": "3.4.1",
 		"qs": "6.12.0",
 		"quill": "^2.0.3",
