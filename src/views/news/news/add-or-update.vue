@@ -1,6 +1,6 @@
 <template>
 	<el-dialog v-model="visible" :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" draggable>
-		<el-form ref="dataFormRef" :model="dataForm" :rules="dataRules" :label-width="100">
+		<el-form ref="dataFormRef" :model="dataForm" :rules="dataRules" :label-width="120">
 			<el-form-item label="标题" prop="title">
 				<el-input v-model="dataForm.title" placeholder="标题"></el-input>
 			</el-form-item>
@@ -12,6 +12,10 @@
 			</el-form-item>
 			<el-form-item label="封面图片URL" prop="coverImage">
 				<el-input v-model="dataForm.coverImage" placeholder="封面图片URL"></el-input>
+				<!-- 图片预览区域 -->
+				<div v-if="dataForm.coverImage" class="image-preview">
+					<el-image :src="dataForm.coverImage" width="100" height="0" :preview-src-list="[dataForm.coverImage]"></el-image>
+				</div>
 			</el-form-item>
 			<el-form-item label="资讯来源" prop="source">
 				<el-input v-model="dataForm.source" placeholder="资讯来源"></el-input>
@@ -19,7 +23,7 @@
 			<el-form-item label="浏览量" prop="viewCount">
 				<el-input v-model="dataForm.viewCount" placeholder="浏览量"></el-input>
 			</el-form-item>
-			<el-form-item label="状态：0-草稿，1-已发布，2-已下架" prop="status">
+			<el-form-item label="状态" prop="status">
 				<el-input v-model="dataForm.status" placeholder="状态：0-草稿，1-已发布，2-已下架"></el-input>
 			</el-form-item>
 			<el-form-item label="创建时间" prop="createTime">
@@ -78,7 +82,6 @@ const dataRules = ref({
 	adminId: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
 	viewCount: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
 	status: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-	coverImage: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
 	source: [{ required: true, message: '必填项不能为空', trigger: 'blur' }]
 })
 

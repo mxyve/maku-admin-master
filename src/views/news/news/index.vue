@@ -38,12 +38,21 @@
 		>
 			<el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
 			<el-table-column prop="title" label="标题" header-align="center" align="center"></el-table-column>
-			<el-table-column prop="content" label="内容" header-align="center" align="center"></el-table-column>
+			<el-table-column prop="content" label="内容" header-align="center" align="center"> </el-table-column>
 			<el-table-column prop="adminId" label="管理员ID" header-align="center" align="center"></el-table-column>
-			<el-table-column prop="coverImage" label="封面图片URL" header-align="center" align="center"></el-table-column>
+			<el-table-column label="封面图片" header-align="center" align="center" width="100">
+				<template #default="scope">
+					<el-image v-if="scope.row.coverImage" :src="scope.row.coverImage" width="60" height="40" fit="cover" @error="handleImageError" />
+					<div v-else class="no-image-placeholder">无图片</div>
+				</template>
+			</el-table-column>
 			<el-table-column prop="source" label="资讯来源" header-align="center" align="center"></el-table-column>
 			<el-table-column prop="viewCount" label="浏览量" header-align="center" align="center"></el-table-column>
-			<el-table-column prop="status" label="状态：0-草稿，1-已发布，2-已下架" header-align="center" align="center"></el-table-column>
+			<el-table-column label="状态" header-align="center" align="center">
+				<template #default="scope">
+					<el-tag :type="getStatusType(scope.row.status)">{{ getStatusText(scope.row.status) }}</el-tag>
+				</template>
+			</el-table-column>
 			<el-table-column prop="createTime" label="创建时间" header-align="center" align="center"></el-table-column>
 			<el-table-column prop="updateTime" label="更新时间" header-align="center" align="center"></el-table-column>
 			<el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
@@ -81,7 +90,13 @@ const state: IHooksOptions = reactive({
 	queryForm: {
 		title: '',
 		content: ''
-	}
+	},
+	page: 1,
+	limit: 10,
+	pageSizes: [10, 20, 50, 100],
+	total: 0,
+	dataList: [],
+	dataListLoading: false
 })
 
 const queryRef = ref()
@@ -93,4 +108,43 @@ const addOrUpdateHandle = (id?: number) => {
 }
 
 const { getDataList, selectionChangeHandle, sizeChangeHandle, currentChangeHandle, deleteBatchHandle, downloadHandle, reset } = useCrud(state)
+
+// 状态文本映射
+const getStatusText = (status: string | number) => {
+	const map = {
+		'0': '草稿',
+		'1': '已发布',
+		'2': '已下架'
+	}
+	return map[status.toString()] || '未知'
+}
+
+// 状态标签样式映射
+const getStatusType = (status: string | number) => {
+	const map = {
+		'0': 'info',
+		'1': 'success',
+		'2': 'warning'
+	}
+	return map[status.toString()] || 'default'
+}
+
+// 图片加载失败处理
+const handleImageError = (e: Event) => {
+	;(e.target as HTMLImageElement).src = '/static/default-image.png' // 替换为你的默认图片路径
+}
 </script>
+
+<style scoped>
+.content-preview {
+	max-height: 60px;
+	overflow: hidden;
+	line-height: 1.5;
+	text-overflow: ellipsis;
+}
+
+.no-image-placeholder {
+	color: #909399;
+	font-size: 12px;
+}
+</style>
