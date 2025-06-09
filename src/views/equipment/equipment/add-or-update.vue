@@ -35,7 +35,7 @@
 
 			<!-- 二维码操作按钮 -->
 			<el-form-item label="二维码操作">
-				<el-button type="primary" icon="el-icon-qrcode" @click="generateQrcode()" :disabled="disableGenerateBtn">生成二维码</el-button>
+				<el-button type="primary" icon="el-icon-qrcode" @click="generateQrcode()" :disabled="!dataForm.deviceId">生成二维码</el-button>
 				<el-button type="danger" icon="el-icon-delete" @click="deleteQrcode()" :disabled="!dataForm.qrcodeId">删除二维码</el-button>
 			</el-form-item>
 

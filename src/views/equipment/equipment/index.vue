@@ -53,7 +53,7 @@
 			</el-table-column>
 			<el-table-column label="二维码" header-align="center" align="center" width="120">
 				<template #default="scope">
-					<el-image v-if="scope.row.picture" :src="scope.row.picture" width="80" height="80" :preview-src-list="[scope.row.picture]" />
+					<el-image v-if="scope.row.picture" :src="scope.row.picture" width="80" height="80" />
 					<span v-else>无</span>
 				</template> </el-table-column
 			><!-- <el-table-column prop="isOpen" label="" header-align="center" align="center"></el-table-column> -->
@@ -81,7 +81,7 @@
 		<add-or-update v-if="addOrUpdateVisible" ref="addOrUpdateRef" v-model:visible="addOrUpdateVisible" @refreshDataList="getDataList"></add-or-update>
 	</el-card>
 
-	<el-button @click="showDataList">显示数据</el-button>
+	<!-- <el-button @click="showDataList">显示数据</el-button> -->
 </template>
 
 <script setup lang="ts" name="EquipmentEquipmentIndex">
